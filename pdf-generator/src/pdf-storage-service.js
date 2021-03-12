@@ -1,5 +1,5 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import { PDF_STORAGE_BUCKET_NAME, PDF_STORAGE_BUCKET_REGION } from './config';
+import { PDF_STORAGE_BUCKET_NAME, PDF_STORAGE_BUCKET_REGION, MODE } from './config';
 import FileService from './file-service';
 
 const client = new S3Client({
@@ -16,6 +16,9 @@ export default class PdfStorageService {
   }
 
   async store() {
+    if (MODE == 'SAM_LOCAL') {
+      return `https://dummyS3Url/${this.s3BucketKey}`;
+    }
     const result = await client.send(this.toPutObjectCommandForPDF());
     console.log(result);
     return `${s3BucketBaseUrl}/${this.s3BucketKey}`;

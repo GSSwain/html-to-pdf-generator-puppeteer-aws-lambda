@@ -1,0 +1,6 @@
+{
+    "Parameters": {
+      "MODE": "SAM_LOCAL",
+      "ALLOWED_CORS_DOMAIN": "http://localhost:8080"
+    }
+  }

@@ -13,6 +13,12 @@ Parameters:
   CorsOriginDomain:
     Type: String
     Default: https://gsswain.com
+  Mode:
+    Type: String
+    Default: AWS
+    AllowdValues:
+      - AWS
+      - SAM_LOCAL
 
 Resources:
   PDFGeneratorFunction:
@@ -29,6 +35,7 @@ Resources:
         Variables:
           PDF_STORAGE_BUCKET_NAME: !Ref PDFStorageS3Bucket
           ALLOWED_CORS_DOMAIN: !Ref CorsOriginDomain
+          MODE: !Ref Mode
       
       Policies:
       - Statement:
