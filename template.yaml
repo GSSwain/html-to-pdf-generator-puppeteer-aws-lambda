@@ -16,7 +16,7 @@ Parameters:
   Mode:
     Type: String
     Default: AWS
-    AllowdValues:
+    AllowedValues:
       - AWS
       - SAM_LOCAL
 
