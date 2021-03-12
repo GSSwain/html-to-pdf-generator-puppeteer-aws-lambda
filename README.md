@@ -60,13 +60,13 @@ Test a single function by invoking it directly with a test event. An event is a 
 Run functions locally and invoke them with the `sam local invoke` command.
 
 ```bash
-html-to-pdf-generator-puppeteer-aws-lambda$ sam local invoke PDFGeneratorFunction --event events/event.json
+html-to-pdf-generator-puppeteer-aws-lambda$ sam local invoke PDFGeneratorFunction --event events/event.json --env-vars sam-local-env.json
 ```
 
 The SAM CLI can also emulate your application's API. Use the `sam local start-api` to run the API locally on port 3000.
 
 ```bash
-html-to-pdf-generator-puppeteer-aws-lambda$ sam local start-api
+html-to-pdf-generator-puppeteer-aws-lambda$ sam local start-api --env-vars sam-local-env.json
 html-to-pdf-generator-puppeteer-aws-lambda$ curl http://localhost:3000/
 ```
 
