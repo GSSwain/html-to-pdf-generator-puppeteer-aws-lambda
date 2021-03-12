@@ -4,4 +4,3 @@ npm i
 npm run transpile
 cd ..
 sam build
-sam validate

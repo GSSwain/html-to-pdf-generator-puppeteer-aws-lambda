@@ -25,8 +25,8 @@ jobs:
           sam --version
       - name: Build and validate
         run: bash build.sh
-      - name: Deploy
-        run: sam deploy
+      - name: Validate and Deploy
+        run: sam validate && sam deploy
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
