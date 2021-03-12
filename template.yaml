@@ -1,0 +1,109 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  html-to-pdf-generator-puppeteer
+
+  SAM Template for html-to-pdf-generator-puppeteer
+
+Globals:
+  Function:
+    Timeout: 15
+    
+Parameters:
+  CorsOriginDomain:
+    Type: String
+    Default: https://gsswain.com
+
+Resources:
+  PDFGeneratorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: pdf-generator/
+      Handler: dist/app.handler
+      Runtime: nodejs14.x
+      MemorySize: 512
+      ReservedConcurrentExecutions: 1 # I don't really want to scale up 
+      Layers:
+        - !Ref PuppeteerDependencyLayer
+      Environment:
+        Variables:
+          PDF_STORAGE_BUCKET_NAME: !Ref PDFStorageS3Bucket
+          ALLOWED_CORS_DOMAIN: !Ref CorsOriginDomain
+      
+      Policies:
+      - Statement:
+        - Sid: S3PutObjectWithTagging
+          Effect: Allow
+          Action:
+          - "s3:PutObject*"
+          Resource: !Sub "arn:aws:s3:::${PDFStorageS3Bucket}/*"
+      Events:
+        GeneratePDF:
+          Type: Api
+          Properties:
+            Path: /generate-pdf
+            Method: post
+            RestApiId: !Ref PDFGeneratorApi
+            Auth:
+              ApiKeyRequired: true
+
+
+  PDFGeneratorApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Auth:
+        UsagePlan:
+          CreateUsagePlan: PER_API
+          Quota:
+            Limit: 500   # Yes, no more than 500 requests per month. I don't want to be going beyond the free tier for my Lambda invocations and S3 api calls. 
+            Period: MONTH
+          Throttle:
+            BurstLimit: 2
+            RateLimit: 1
+      StageName: Prod
+      Cors:
+        AllowMethods: "'OPTIONS,POST'"
+        AllowHeaders: "'Content-Type, X-Api-Key'"
+        AllowOrigin: !Sub "'${CorsOriginDomain}'"
+
+
+  PuppeteerDependencyLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+        LayerName: puppeteer-layer
+        Description: Dependencies for html-to-pdf-generator-puppeteer [puppeteer]
+        ContentUri: dependencies/
+        CompatibleRuntimes:
+          - nodejs14.x
+        LicenseInfo: 'Apache License 2.0'
+        RetentionPolicy: Retain
+  
+  PDFStorageS3Bucket:
+    Type: AWS::S3::Bucket
+  
+  S3BucketConditionalPublicReadAccessPolicy:
+    Type: "AWS::S3::BucketPolicy"
+    Properties:
+      Bucket: !Ref PDFStorageS3Bucket
+      PolicyDocument:
+        Statement:
+          - Action:
+              - "s3:GetObject"
+            Effect: Allow
+            Resource: !Sub "arn:aws:s3:::${PDFStorageS3Bucket}/*"
+            Principal: "*"
+            Condition:
+              StringEquals:
+                "s3:ExistingObjectTag/public": "yes" # Public access to only objects with public=yes tags
+
+Outputs:
+  PDFGeneratorApi:
+    Description: "API Gateway endpoint URL for Prod stage for PDF Generator function"
+    Value: !Sub "https://${PDFGeneratorApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/generate-pdf/"
+  PDFGeneratorFunction:
+    Description: "PDF Generator Lambda Function ARN"
+    Value: !GetAtt PDFGeneratorFunction.Arn
+  PDFGeneratorFunctionIamRole:
+    Description: "Implicit IAM Role created for  PDF Generator function"
+    Value: !GetAtt PDFGeneratorFunction.Arn
+

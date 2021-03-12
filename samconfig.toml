@@ -1,0 +1,11 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "html-to-pdf"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-m3dw2976k16m"
+s3_prefix = "html-to-pdf"
+region = "ap-southeast-2"
+parameter_overrides=["CorsOriginDomain=https://gsswain.com"]
+confirm_changeset = false
+capabilities = "CAPABILITY_IAM"
