@@ -23,7 +23,7 @@ jobs:
           unzip aws-sam-cli-linux-x86_64.zip -d sam-installation
           sudo ./sam-installation/install
           sam --version
-      - name: Build and validate
+      - name: Build
         run: bash build.sh
       - name: Validate and Deploy
         run: sam validate && sam deploy
