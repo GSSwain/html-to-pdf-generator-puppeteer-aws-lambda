@@ -1,4 +1,4 @@
-const { default: PdfGenerationRequestHandler } = require("./pdf-generation-request-handler");
+import PdfGenerationRequestHandler from "./pdf-generation-request-handler";
 
 exports.handler = async (event, context) => {
   try {
