@@ -112,5 +112,5 @@ Outputs:
     Value: !GetAtt PDFGeneratorFunction.Arn
   PDFGeneratorFunctionIamRole:
     Description: "Implicit IAM Role created for  PDF Generator function"
-    Value: !GetAtt PDFGeneratorFunction.Arn
+    Value: !GetAtt PDFGeneratorFunctionRole.Arn
 
