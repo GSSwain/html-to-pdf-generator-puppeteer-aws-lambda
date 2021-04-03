@@ -47,10 +47,10 @@ You can find your API Gateway Endpoint URL in the output values displayed after 
 
 ## Use the SAM CLI to build and test locally
 
-Build your application with the `sam build` command.
+Build your application with the `sam build` command. The `build.sh` file uses the same after transpiling the code.
 
 ```bash
-html-to-pdf-generator-puppeteer-aws-lambda$ sam build
+html-to-pdf-generator-puppeteer-aws-lambda$ bash build.sh
 ```
 
 The SAM CLI installs dependencies defined in `pdf-generator/package.json`, creates a deployment package, and saves it in the `.aws-sam/build` folder.
