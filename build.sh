@@ -1,6 +1,6 @@
 #!/bin/bash
 cd pdf-generator
-npm i
+npm ci
 npm run transpile
 cd ..
 sam build
