@@ -2,7 +2,7 @@ import { ALLOWED_CORS_DOMAIN } from "./config";
 
 export default class PdfGenerationResponseAdapter {
 
-  static toPDFCreated(pdfUrl) {
+  static toCreated(pdfUrl) {
     return {
       'statusCode': 201,
       "headers": {

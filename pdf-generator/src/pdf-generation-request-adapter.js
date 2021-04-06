@@ -8,7 +8,7 @@ export default class PdfGenerationRequestAdapter {
     this.fileName = `${event.requestContext.requestId}_${randomFileName()}.pdf`;
   }
 
-  toPDFGenerationRequest() {
+  toPdfGenerationRequest() {
     return new PdfGenerationRequest(this.requestBody.url, this.fileName);
   }
 
