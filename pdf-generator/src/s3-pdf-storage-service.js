@@ -15,10 +15,10 @@ export default class S3PdfStorageService {
 
   async store(pdfStorageRequest) {
     if (MODE == 'SAM_LOCAL') {
-      return `https://dummyS3Url/${this.s3BucketKey}`;
+      return `https://dummyS3Url/${pdfStorageRequest.fileName}`;
     }
     const result = await client.send(this.s3PdfStorageRequestAdapter.toPutObjectCommand(pdfStorageRequest));
     console.log(result);
-    return `${s3BucketBaseUrl}/${this.s3BucketKey}`;
+    return `${s3BucketBaseUrl}/${pdfStorageRequest.fileName}`;
   }
 }

@@ -1,7 +1,6 @@
 export default class PdfStorageRequest {
-    constructor(s3BucketName, s3BucketKey, filePath, metadata) {
-        this.s3BucketName = s3BucketName;
-        this.s3BucketKey = s3BucketKey;
+    constructor(fileName, filePath, metadata) {
+        this.fileName = fileName;
         this.filePath = filePath;
         this.metadata = metadata;
     }

@@ -1,4 +1,3 @@
-import { PDF_STORAGE_BUCKET_NAME } from "./config";
 import PdfGenerationRequestAdapter from "./pdf-generation-request-adapter";
 import PdfGenerationResponseAdapter from "./pdf-generation-response-adapter";
 import PdfGenerationService from "./pdf-generation-service";
@@ -15,7 +14,7 @@ export default class PdfGenerationRequestHandler {
         const { pdfGenerationRequest } = this;
         const tempFilePath = await new PdfGenerationService().generate(pdfGenerationRequest);
         console.log('PDF generated');
-        const pdfStorageRequest = new PdfStorageRequest(PDF_STORAGE_BUCKET_NAME, pdfGenerationRequest.fileName, tempFilePath, {
+        const pdfStorageRequest = new PdfStorageRequest(pdfGenerationRequest.fileName, tempFilePath, {
             url: pdfGenerationRequest.url
         });
         const pdfUrl = await new S3PdfStorageService().store(pdfStorageRequest);
