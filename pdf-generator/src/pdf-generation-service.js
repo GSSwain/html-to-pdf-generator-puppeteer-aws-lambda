@@ -12,13 +12,13 @@ export default class PdfGenerationService {
     await page.goto(pdfGenerationRequest.url, {
       waitUntil: 'networkidle0'
     });
-    const tempFilePath = `/tmp/${pdfGenerationRequest.fileName}`;
+    const pdfFilePath = `/tmp/${pdfGenerationRequest.fileName}`;
     await page.pdf({
-      path: tempFilePath,
+      path: pdfFilePath,
       ...htmlToPdfPrintOptions
     });
     await browser.close();
-    return tempFilePath;
+    return pdfFilePath;
   }
 
 
