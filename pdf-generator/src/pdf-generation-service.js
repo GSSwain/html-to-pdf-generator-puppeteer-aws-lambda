@@ -5,29 +5,30 @@ const DEFAULT_PRINT_OPTIONS = {
   scale: 0.97
 };
 export default class PdfGenerationService {
-  constructor(pdfGenerationRequest) {
-    this.pdfGenerationRequest = pdfGenerationRequest;
+
+  async generate(pdfGenerationRequest, htmlToPdfPrintOptions = DEFAULT_PRINT_OPTIONS) {
+    const browser = await this.launchBrowser();
+    const page = await browser.newPage();
+    await page.goto(pdfGenerationRequest.url, {
+      waitUntil: 'networkidle0'
+    });
+    const pdfFilePath = `/tmp/${pdfGenerationRequest.fileName}`;
+    await page.pdf({
+      path: pdfFilePath,
+      ...htmlToPdfPrintOptions
+    });
+    await browser.close();
+    return pdfFilePath;
   }
 
-  async generatePDF(htmlToPDFPrintOptions = DEFAULT_PRINT_OPTIONS) {
-    const browser = await chromium.puppeteer.launch({
+
+  async launchBrowser() {
+    return await chromium.puppeteer.launch({
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
       executablePath: await chromium.executablePath,
       headless: chromium.headless,
       ignoreHTTPSErrors: true
     });
-    const page = await browser.newPage();
-    await page.goto(this.pdfGenerationRequest.url, {
-      waitUntil: 'networkidle0'
-    });
-    const tempFilePath = `/tmp/${this.pdfGenerationRequest.fileName}`;
-    await page.pdf({
-      path: tempFilePath,
-      ...htmlToPDFPrintOptions
-    });
-    await browser.close();
-    return tempFilePath;
   }
-
 }

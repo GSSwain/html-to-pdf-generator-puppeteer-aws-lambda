@@ -2,7 +2,7 @@
   "name": "html_to_pdf_puppeteer",
   "version": "1.0.0",
   "description": "Generate PDF from HTML using Puppeteer on AWS Lambda",
-  "main": "src/app.js",
+  "main": "dist/app.js",
   "author": "Girija Shankar Swain",
   "license": "MIT",
   "dependencies": {
