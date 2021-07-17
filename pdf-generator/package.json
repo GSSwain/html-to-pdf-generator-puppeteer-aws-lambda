@@ -15,7 +15,7 @@
     "test": "mocha tests/unit/"
   },
   "devDependencies": {
-    "@babel/cli": "^7.13.10",
+    "@babel/cli": "^7.12.1",
     "@babel/core": "^7.13.0",
     "@babel/plugin-transform-modules-commonjs": "^7.13.8",
     "chai": "^4.2.0",
