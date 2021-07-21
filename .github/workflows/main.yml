@@ -21,7 +21,7 @@ jobs:
           sha256sum aws-sam-cli-linux-x86_64.zip
           echo "Unzip and Install SAM CLI"
           unzip aws-sam-cli-linux-x86_64.zip -d sam-installation
-          sudo ./sam-installation/install
+          sudo ./sam-installation/install --update
           sam --version
       - name: Build
         run: bash build.sh
