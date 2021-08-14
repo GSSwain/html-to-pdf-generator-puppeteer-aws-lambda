@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Generate PDF from HTML using Puppeteer on AWS Lambda",
   "main": "dist/app.js",
-  "author": "Girija Shankar Swain",
+  "author": "GSSwain",
   "license": "MIT",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.8.0",
